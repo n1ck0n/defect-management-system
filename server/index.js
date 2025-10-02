@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/projects');
+const defectRoutes = require('./routes/defects');
 const { authenticateToken } = require('./middleware/auth');
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/defects', defectRoutes);
 
 // Protected test route
 app.get('/api/protected', authenticateToken, (req, res) => {
@@ -31,7 +33,8 @@ app.get('/api', (req, res) => {
     message: 'Defect Management System API is working!',
     endpoints: {
       auth: '/api/auth',
-      projects: '/api/projects'
+      projects: '/api/projects',
+      defects: '/api/defects'
     }
   });
 });
