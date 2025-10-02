@@ -37,6 +37,24 @@ const router = createRouter({
       name: 'project-detail',
       component: () => import('@/views/ProjectDetailView.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/defects',
+      name: 'defects',
+      component: () => import('@/components/DefectsList.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/defects/:id',
+      name: 'defect-detail',
+      component: () => import('@/views/DefectDetailView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/reports',
+      name: 'reports',
+      component: () => import('@/views/ReportsView.vue'),
+      meta: { requiresAuth: true }
     }
   ]
 });
