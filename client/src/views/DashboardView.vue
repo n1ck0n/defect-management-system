@@ -25,19 +25,24 @@
           </ul>
         </div>
 
-        <div class="quick-stats">
-          <div class="stat-card">
+        <div class="quick-actions">
+          <router-link to="/projects" class="action-card">
+            <div class="action-icon">🏗️</div>
             <h4>Проекты</h4>
-            <p class="stat-number">0</p>
-          </div>
-          <div class="stat-card">
+            <p>Управление строительными объектами</p>
+          </router-link>
+          
+          <router-link to="/defects" class="action-card" v-if="authStore.canCreateDefects">
+            <div class="action-icon">⚠️</div>
             <h4>Дефекты</h4>
-            <p class="stat-number">0</p>
-          </div>
-          <div class="stat-card">
-            <h4>Мои задачи</h4>
-            <p class="stat-number">0</p>
-          </div>
+            <p>Создание и отслеживание дефектов</p>
+          </router-link>
+          
+          <router-link to="/reports" class="action-card" v-if="authStore.canViewReports">
+            <div class="action-icon">📊</div>
+            <h4>Отчеты</h4>
+            <p>Аналитика и статистика</p>
+          </router-link>
         </div>
       </div>
     </div>
@@ -145,30 +150,42 @@ const handleLogout = () => {
   color: #666;
 }
 
-.quick-stats {
+.quick-actions {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
   margin-top: 2rem;
 }
 
-.stat-card {
+.action-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  text-align: center;
+  padding: 2rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  display: block;
 }
 
-.stat-card h4 {
+.action-card:hover {
+  transform: translateY(-5px);
+  text-decoration: none;
+  color: white;
+}
+
+.action-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.action-card h4 {
   margin: 0 0 0.5rem 0;
-  font-size: 0.9rem;
-  opacity: 0.9;
+  font-size: 1.25rem;
 }
 
-.stat-number {
-  font-size: 2rem;
-  font-weight: bold;
+.action-card p {
   margin: 0;
+  opacity: 0.9;
+  font-size: 0.9rem;
 }
 </style>

@@ -25,6 +25,18 @@ const router = createRouter({
       name: 'dashboard',
       component: () => import('@/views/DashboardView.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/projects',
+      name: 'projects',
+      component: () => import('@/components/ProjectsList.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/projects/:id',
+      name: 'project-detail',
+      component: () => import('@/views/ProjectDetailView.vue'),
+      meta: { requiresAuth: true }
     }
   ]
 });
