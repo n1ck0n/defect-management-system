@@ -6,15 +6,18 @@ const generateToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '24h' });
 };
 
-// Регистрация пользователя
+// Регистрация пользователя - ТОЛЬКО КАК НАБЛЮДАТЕЛЬ
 const register = async (req, res) => {
   try {
-    const { email, password, full_name, role = 'engineer' } = req.body;
+    const { email, password, full_name } = req.body;
 
     // Проверяем обязательные поля
     if (!email || !password || !full_name) {
       return res.status(400).json({ error: 'Email, password and full name are required' });
     }
+
+    // При регистрации ВСЕГДА устанавливаем роль 'observer'
+    const role = 'observer';
 
     // Проверяем, не существует ли уже пользователь с таким email
     const existingUser = await User.findByEmail(email);
@@ -22,14 +25,14 @@ const register = async (req, res) => {
       return res.status(400).json({ error: 'User with this email already exists' });
     }
 
-    // Создаем пользователя
+    // Создаем пользователя ТОЛЬКО как наблюдателя
     const user = await User.create({ email, password, full_name, role });
     
     // Генерируем токен
     const token = generateToken(user.id);
 
     res.status(201).json({
-      message: 'User registered successfully',
+      message: 'User registered successfully as Observer',
       user: {
         id: user.id,
         email: user.email,
