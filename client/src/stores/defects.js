@@ -172,6 +172,30 @@ export const useDefectsStore = defineStore('defects', () => {
     return priorityObj ? priorityObj.color : '#6c757d';
   };
 
+  const users = ref([]);
+  const engineers = ref([]);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await api.get('/users');
+      users.value = response.data.users;
+      engineers.value = response.data.users.filter(user => user.role === 'engineer');
+    } catch (error) {
+    console.error('Error fetching users:', error);
+    throw error;
+    }
+  };
+
+  const fetchEngineers = async () => {
+    try {
+      const response = await api.get('/users/role/engineer');
+      engineers.value = response.data.users;
+    } catch (error) {
+      console.error('Error fetching engineers:', error);
+      throw error;
+    }
+  };
+
   return {
     defects,
     currentDefect,
@@ -190,6 +214,10 @@ export const useDefectsStore = defineStore('defects', () => {
     getStatusLabel,
     getPriorityLabel,
     getStatusColor,
-    getPriorityColor
+    getPriorityColor,
+    users,
+    engineers,
+    fetchUsers,
+    fetchEngineers
   };
 });

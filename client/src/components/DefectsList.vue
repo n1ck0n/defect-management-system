@@ -225,7 +225,7 @@
                   :key="user.id" 
                   :value="user.id"
                 >
-                  {{ user.full_name }}
+                  {{ user.full_name }} ({{ user.email }})
                 </option>
               </select>
             </div>
@@ -278,19 +278,14 @@ const defectForm = reactive({
 });
 
 // Заглушка для пользователей (в реальном приложении нужно получать с API)
-const users = computed(() => [
-  { id: 1, full_name: 'Иван Инженеров', role: 'engineer' },
-  { id: 2, full_name: 'Петр Менеджеров', role: 'manager' }
-]);
-
-const engineers = computed(() => 
-  users.value.filter(user => user.role === 'engineer')
-);
+const engineers = computed(() => defectsStore.engineers);
+const users = computed(() => defectsStore.users);
 
 onMounted(async () => {
   try {
     await projectsStore.fetchProjects();
     await defectsStore.fetchDefects();
+    await defectsStore.fetchUsers(); // Загружаем пользователей
   } catch (error) {
     console.error('Error loading data:', error);
   }

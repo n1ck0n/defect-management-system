@@ -11,6 +11,8 @@ const createDefect = async (req, res) => {
       return res.status(400).json({ error: 'Project ID and title are required' });
     }
 
+    const normalizedAssigneeId = assignee_id === '' ? null : assignee_id;
+
     const defect = await Defect.create({
       project_id,
       title,
@@ -27,6 +29,16 @@ const createDefect = async (req, res) => {
     });
   } catch (error) {
     console.error('Create defect error:', error);
+    if (error.code === '23503') { // Foreign key violation
+      if (error.constraint === 'defects_project_id_fkey') {
+        return res.status(400).json({ error: 'Project not found' });
+      } else if (error.constraint === 'defects_assignee_id_fkey') {
+        return res.status(400).json({ error: 'Assignee not found' });
+      } else if (error.constraint === 'defects_author_id_fkey') {
+        return res.status(400).json({ error: 'Author not found' });
+      }
+    }
+    
     res.status(500).json({ error: error.message });
   }
 };

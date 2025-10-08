@@ -5,6 +5,8 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/projects');
 const defectRoutes = require('./routes/defects');
+const userRoutes = require('./routes/users');
+const reportRoutes = require('./routes/reports');
 const { authenticateToken } = require('./middleware/auth');
 
 const app = express();
@@ -18,6 +20,8 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/defects', defectRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/reports', reportRoutes);
 
 // Protected test route
 app.get('/api/protected', authenticateToken, (req, res) => {
@@ -34,7 +38,8 @@ app.get('/api', (req, res) => {
     endpoints: {
       auth: '/api/auth',
       projects: '/api/projects',
-      defects: '/api/defects'
+      defects: '/api/defects',
+      users: '/api/users'
     }
   });
 });
